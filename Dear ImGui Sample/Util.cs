@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 namespace Dear_ImGui_Sample
 {
@@ -31,13 +31,16 @@ namespace Dear_ImGui_Sample
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void LabelObject(ObjectLabelIdentifier objLabelIdent, int glObject, string name)
         {
-            GL.ObjectLabel(objLabelIdent, glObject, name.Length, name);
+            // OpenGL 3.3 doesn't have glObjectLabel as that is a 4.3 feature. So we do nothing here...
+            // GL.ObjectLabel(objLabelIdent, glObject, name.Length, name);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CreateTexture(TextureTarget target, string Name, out int Texture)
         {
-            GL.CreateTextures(target, 1, out Texture);
+            Texture = GL.GenTexture();
+            GL.BindTexture(target, Texture);
+            GL.BindTexture(target, 0);
             LabelObject(ObjectLabelIdentifier.Texture, Texture, $"Texture: {Name}");
         }
 
@@ -58,7 +61,9 @@ namespace Dear_ImGui_Sample
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CreateBuffer(string Name, out int Buffer)
         {
-            GL.CreateBuffers(1, out Buffer);
+            Buffer = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ArrayBuffer, Buffer);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             LabelObject(ObjectLabelIdentifier.Buffer, Buffer, $"Buffer: {Name}");
         }
 
@@ -71,7 +76,9 @@ namespace Dear_ImGui_Sample
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CreateVertexArray(string Name, out int VAO)
         {
-            GL.CreateVertexArrays(1, out VAO);
+            VAO = GL.GenVertexArray();
+            GL.BindVertexArray(VAO);
+            GL.BindVertexArray(0);
             LabelObject(ObjectLabelIdentifier.VertexArray, VAO, $"VAO: {Name}");
         }
     }
