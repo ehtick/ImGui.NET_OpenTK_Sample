@@ -28,8 +28,9 @@ Note that `ImGuiController.Render()` enables and disables some OpenGL features. 
 - Disables depth test
 - Changes blend function
 - Changes scissor rectangle
-- Sets `Texture2D` bound to `zero`
+- Changes the shader program in use
+- Sets texture unit `0`'s `Texture2D` to `zero`
 - Sets blend equation to `FuncAdd`
 - Sets blend func to `SrcAlpha`, `OneMinusSrcAlpha`
-- Sets `VertexArray` to zero
+- Sets the `VertexArray` bound to zero
 - Unbinds any Vertex Array Object
